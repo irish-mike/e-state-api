@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/EState.Api/EState.Api.csproj" />
+    <Project Path="src/EState.Application/EState.Application.csproj" />
+    <Project Path="src/EState.Domain/EState.Domain.csproj" />
+    <Project Path="src/EState.Infrastructure/EState.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/EState.Domain.Tests/EState.Domain.Tests.csproj" />
+  </Folder>
+</Solution>
