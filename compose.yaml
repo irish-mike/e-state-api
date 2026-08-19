@@ -1,0 +1,17 @@
+﻿services:
+  postgres:
+    image: postgres:18
+
+    environment:
+      POSTGRES_DB: estate_dev
+      POSTGRES_USER: estate
+      POSTGRES_PASSWORD: estate_dev_password
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql
+
+volumes:
+  postgres_data:

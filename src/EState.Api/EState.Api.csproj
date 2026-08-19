@@ -1,9 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>1519455b-2da0-4889-8b4a-3c757a53db6e</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,5 +15,5 @@
     <ProjectReference Include="..\EState.Application\EState.Application.csproj" />
     <ProjectReference Include="..\EState.Infrastructure\EState.Infrastructure.csproj" />
   </ItemGroup>
-
+  
 </Project>
