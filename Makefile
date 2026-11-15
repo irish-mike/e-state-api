@@ -1,12 +1,7 @@
 .DEFAULT_GOAL := help
+SHELL := sh
 
-ifeq ($(OS),Windows_NT)
-POWERSHELL ?= powershell.exe
-else
-POWERSHELL ?= pwsh
-endif
-
-.PHONY: help restore build test run db-up db-stop db-reset
+.PHONY: help restore build test run db-up db-stop db-reset db-seed
 
 help:
 	@echo make restore  - Restore .NET packages and local tools
@@ -16,6 +11,7 @@ help:
 	@echo make db-up    - Start PostgreSQL
 	@echo make db-stop  - Stop PostgreSQL and keep its data
 	@echo make db-reset - Recreate the local schema and discard its data
+	@echo make db-seed  - Add development data without duplicating existing seed rows
 
 restore:
 	dotnet restore
@@ -37,4 +33,7 @@ db-stop:
 	docker compose stop postgres
 
 db-reset:
-	$(POWERSHELL) -NoProfile -File scripts/Reset-Database.ps1
+	sh scripts/db-reset.sh
+
+db-seed:
+	sh scripts/db-seed.sh

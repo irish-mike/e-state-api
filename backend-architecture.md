@@ -719,7 +719,7 @@ public sealed class ListingConfiguration
 }
 ```
 
-During early development, database rows are disposable. Use `scripts/Reset-Database.ps1` to recreate the local schema from the current EF model; no migrations are tracked during this phase.
+During early development, database rows are disposable. Use `make db-reset` (`scripts/db-reset.sh`) to recreate the local schema from the current EF model; no migrations are tracked during this phase.
 
 Once data must be preserved, introduce an initial migration against a fresh database. The schema workflow then becomes:
 
