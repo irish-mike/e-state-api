@@ -1,4 +1,6 @@
-﻿using EState.Infrastructure.Persistence;
+using EState.Application.Modules.Listings;
+using EState.Infrastructure.Persistence.Repositories;
+using EState.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +19,8 @@ public static class DependencyInjection
 
         services.AddDbContext<EStateDbContext>(
             options => options.UseNpgsql(connectionString));
+
+        services.AddScoped<IListingRepository, ListingRepository>();
 
         return services;
     }

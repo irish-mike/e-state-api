@@ -9,3 +9,8 @@ GET {{EState.Api_HostAddress}}/api/health/db
 Accept: application/json
 
 ###
+
+GET {{EState.Api_HostAddress}}/api/listings/40000000-0000-4000-8000-000000000001
+Accept: application/json
+
+###

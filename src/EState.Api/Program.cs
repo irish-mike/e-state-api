@@ -1,10 +1,13 @@
-using EState.Infrastructure;
+using EState.Api.Modules.Listings;
+using EState.Application.Modules.Listings;
 using EState.Infrastructure.Persistence;
+using EState.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddScoped<ListingsService>();
 
 var app = builder.Build();
 
@@ -14,6 +17,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapListingsEndpoints();
 
 app.MapGet("/api/health", () => Results.Ok(new
 {
