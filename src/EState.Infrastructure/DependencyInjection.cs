@@ -12,13 +12,11 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         var connectionString =
-            configuration.GetConnectionString("PostgreSql") ?? 
-            throw new InvalidOperationException("PostgreSQL connection string is not configured." );
+            configuration.GetConnectionString("PostgreSql") ??
+            throw new InvalidOperationException("PostgreSQL connection string is not configured.");
 
-        services.AddDbContext<EStateDbContext>(options =>
-        {
-            options.UseNpgsql(connectionString);
-        });
+        services.AddDbContext<EStateDbContext>(
+            options => options.UseNpgsql(connectionString));
 
         return services;
     }
