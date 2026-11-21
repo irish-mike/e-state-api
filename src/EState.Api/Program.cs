@@ -14,6 +14,25 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwaggerUI(options =>
+    {
+        options.DocumentTitle = "e-state API";
+        options.SwaggerEndpoint("../openapi/v1.json", "e-state API");
+    });
+
+    app.Lifetime.ApplicationStarted.Register(() =>
+    {
+        foreach (var address in app.Urls)
+        {
+            var docsUrl = new UriBuilder(address) { Path = "/swagger" };
+            if (docsUrl.Host is "0.0.0.0" or "[::]")
+            {
+                docsUrl.Host = "localhost";
+            }
+
+            app.Logger.LogInformation("API docs: {DocsUrl}", docsUrl.Uri);
+        }
+    });
 }
 
 app.UseHttpsRedirection();

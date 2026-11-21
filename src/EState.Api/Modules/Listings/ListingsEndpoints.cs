@@ -8,7 +8,8 @@ public static class ListingsEndpoints
     {
         var listings = app.MapGroup("/api/listings");
 
-        listings.MapGet("/{id:guid}", GetListing);
+        listings.MapGet("/{id:guid}", GetListing)
+            .Produces<ListingResponse>();
     }
 
     private static async Task<IResult> GetListing(Guid id, ListingsService listingService)
