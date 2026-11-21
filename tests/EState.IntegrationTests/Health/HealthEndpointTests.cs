@@ -9,7 +9,7 @@ public sealed class HealthEndpointTests(WebApplicationFactory<Program> factory)
     private readonly HttpClient _client = factory
         .WithWebHostBuilder(builder => builder.UseSetting(
             "ConnectionStrings:PostgreSql",
-            "Host=127.0.0.1;Port=1;Database=estate_health_test;Username=estate"))
+            "Host=127.0.0.1;Port=1;Database=e_state_test;Username=e_state"))
         .CreateClient();
 
     [Fact]

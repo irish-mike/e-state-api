@@ -3,9 +3,9 @@
     image: postgres:18
 
     environment:
-      POSTGRES_DB: estate_dev
-      POSTGRES_USER: estate
-      POSTGRES_PASSWORD: estate_dev_password
+      POSTGRES_DB: e_state_dev
+      POSTGRES_USER: e_state
+      POSTGRES_PASSWORD: e_state_dev_password
 
     ports:
       - "5432:5432"
