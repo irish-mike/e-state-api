@@ -1,3 +1,5 @@
+using EState.Infrastructure;
+
 namespace EState.Api.Startup;
 
 internal static class ApplicationBootstrapper
@@ -7,7 +9,7 @@ internal static class ApplicationBootstrapper
 		var builder = WebApplication.CreateBuilder(args);
 
 		builder.RegisterApplicationServices();
-		builder.ConfigureInfrastructure();
+		builder.Services.AddInfrastructure(builder.Configuration);
 
 		var app = builder.Build();
 
