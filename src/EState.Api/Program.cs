@@ -1,4 +1,4 @@
 using EState.Api.Startup;
 
-var app = ApiStartup.Build(args);
-app.Run();
+var app = ApplicationBootstrapper.Build(args);
+await app.RunAsync();

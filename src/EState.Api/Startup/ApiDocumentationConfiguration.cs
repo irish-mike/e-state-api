@@ -5,9 +5,7 @@ internal static class ApiDocumentationConfiguration
 	public static void Configure(WebApplication app)
 	{
 		if (!app.Environment.IsDevelopment())
-		{
 			return;
-		}
 
 		app.MapOpenApi();
 		ConfigureSwaggerUi(app);

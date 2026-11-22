@@ -4,9 +4,9 @@ namespace EState.Api.Startup;
 
 internal static class ServiceRegistration
 {
-	public static void Register(IServiceCollection services)
+	public static void RegisterApplicationServices(this WebApplicationBuilder builder)
 	{
-		services.AddOpenApi();
-		services.AddScoped<ListingsService>();
+		builder.Services.AddOpenApi();
+		builder.Services.AddScoped<ListingsService>();
 	}
 }
