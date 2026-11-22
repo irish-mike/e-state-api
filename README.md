@@ -50,6 +50,11 @@ With the API running, open [Swagger UI](http://localhost:5165/swagger) to browse
 
 To try `GET /api/listings/{id}`, use the seeded apartment listing ID `40000000-0000-4000-8000-000000000001`.
 
+## Formatting and linting
+
+After `make restore`, run `make format` to fix C# formatting or `make check` to verify formatting and build with analyzers.
+Rules live in [`.editorconfig`](.editorconfig).
+
 ## Further documentation
 
 - [Architecture](docs/backend-architecture.md)

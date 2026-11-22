@@ -1,0 +1,81 @@
+# Stop looking for EditorConfig files above the repository.
+root = true
+
+[*.cs]
+# Use tabs for indentation, displayed at four columns.
+indent_style = tab
+indent_size = 4
+tab_width = 4
+
+# Use LF line endings, end the last line with a newline, and trim trailing whitespace.
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Put opening braces on their own line.
+csharp_new_line_before_open_brace = all
+
+# Use spacing such as if (x == y) and Find(id, status).
+csharp_space_after_keywords_in_control_flow_statements = true
+csharp_space_around_binary_operators = before_and_after
+csharp_space_after_comma = true
+csharp_space_before_comma = false
+
+# Put consecutive statements on separate lines.
+csharp_preserve_single_line_statements = false
+
+# Require braces for multiline bodies. Allow short guards without braces.
+csharp_prefer_braces = when_multiline
+dotnet_diagnostic.IDE0011.severity = error
+
+# Use file-scoped namespaces where possible.
+csharp_style_namespace_declarations = file_scoped
+dotnet_diagnostic.IDE0161.severity = error
+
+# Prefer readonly for private fields assigned only at declaration or in a constructor.
+dotnet_style_readonly_field = true
+dotnet_diagnostic.IDE0044.severity = warning
+
+# Warn about unreferenced private members.
+dotnet_diagnostic.IDE0051.severity = warning
+
+# Warn about private fields and properties that are written but never read.
+dotnet_diagnostic.IDE0052.severity = warning
+
+# Warn about unused parameters in public and non-public methods.
+dotnet_code_quality_unused_parameters = all
+dotnet_diagnostic.IDE0060.severity = warning
+
+# Warn when an assigned value is never read.
+dotnet_diagnostic.IDE0059.severity = warning
+
+# Detect disposable objects that can go out of scope without being disposed.
+dotnet_diagnostic.CA2000.severity = warning
+
+# Check that disposable types dispose the disposable fields they own.
+dotnet_diagnostic.CA2213.severity = warning
+
+# Forward cancellation tokens to calls that accept them.
+dotnet_diagnostic.CA2016.severity = warning
+
+# Use constant log templates with named placeholders and separate values.
+dotnet_diagnostic.CA2254.severity = warning
+
+# Pass valid parameter names and messages to argument exceptions.
+dotnet_diagnostic.CA2208.severity = warning
+
+# Use a bare rethrow inside catch to preserve the original stack trace.
+dotnet_diagnostic.CA2200.severity = error
+
+# Suggest static local functions where appropriate
+dotnet_diagnostic.IDE0062.severity = suggestion
+
+# Give Rider a 120-column target when Wrap long lines is enabled.
+max_line_length = 120
+
+# Put arguments and parameters on separate lines when a list is long or already wraps.
+resharper_csharp_wrap_arguments_style = chop_if_long
+resharper_csharp_wrap_parameters_style = chop_if_long
+
+# Suggest inverting an if statement when an early return reduces nesting.
+resharper_invert_if_highlighting = suggestion

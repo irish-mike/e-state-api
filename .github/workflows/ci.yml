@@ -20,8 +20,11 @@ jobs:
       - name: Restore
         run: dotnet restore
 
-      - name: Build
-        run: dotnet build --no-restore
+      - name: Check formatting
+        run: dotnet format whitespace EState.slnx --no-restore --verify-no-changes
 
-      - name: Test
-        run: dotnet test --no-build
+      - name: Build and analyze
+        run: dotnet build -c Release --no-restore
+
+      - name: Run tests
+        run: dotnet test -c Release --no-build --no-restore
