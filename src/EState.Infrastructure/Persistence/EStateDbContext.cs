@@ -7,16 +7,16 @@ using Microsoft.EntityFrameworkCore;
 namespace EState.Infrastructure.Persistence;
 
 public sealed class EStateDbContext(
-    DbContextOptions<EStateDbContext> options)
-    : DbContext(options)
+	DbContextOptions<EStateDbContext> options)
+	: DbContext(options)
 {
-    public DbSet<Address> Addresses => Set<Address>();
-    public DbSet<User> Users => Set<User>();
-    public DbSet<Property> Properties => Set<Property>();
-    public DbSet<Listing> Listings => Set<Listing>();
+	public DbSet<Address> Addresses => Set<Address>();
+	public DbSet<User> Users => Set<User>();
+	public DbSet<Property> Properties => Set<Property>();
+	public DbSet<Listing> Listings => Set<Listing>();
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(EStateDbContext).Assembly);
-    }
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
+	{
+		modelBuilder.ApplyConfigurationsFromAssembly(typeof(EStateDbContext).Assembly);
+	}
 }

@@ -5,9 +5,9 @@ namespace EState.Api.Startup;
 
 internal static class EndpointRegistration
 {
-    public static void Map(IEndpointRouteBuilder app)
-    {
-        app.MapListingsEndpoints();
-        app.MapHealthEndpoints();
-    }
+	public static void Map(IEndpointRouteBuilder app)
+	{
+		app.MapListingsEndpoints();
+		app.MapHealthEndpoints();
+	}
 }
