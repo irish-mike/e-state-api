@@ -4,5 +4,5 @@ namespace EState.Application.Modules.Listings;
 
 public interface IListingRepository
 {
-	Task<Listing> GetByIdAsync(Guid id);
+	Task<Listing?> GetByIdAsync(Guid id);
 }
