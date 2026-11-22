@@ -834,6 +834,14 @@ Singleton  one instance for the application lifetime
 
 EF Core contexts and repositories should normally be scoped.
 
+### Logging
+
+Use the built-in .NET `ILogger<T>` directly with the built-in logging providers. Prefer constructor injection when an instance class or application handler logs across multiple methods. Static API endpoints can request a logger through a method parameter when needed. Keep diagnostic logging out of the Domain layer.
+
+- Use constant message templates and pass property values as separate arguments, as in `logger.LogInformation("Listing {ListingId} created", listing.Id)`. String interpolation turns those properties into plain text before the logger receives them.
+- Use `BeginScope()` when multiple logs in one operation share context such as `ListingId`. Dispose the scope with `using` at the end of the operation. The console includes scopes through `Logging:Console:IncludeScopes` in `appsettings.json`.
+- Use `Information` for meaningful business operations and `Debug` for diagnostic detail. Avoid repetitive endpoint-hit logs and keep sensitive data out of log messages and scopes.
+
 ## 16. Important cross-module workflows
 
 Keep workflows that require immediate consistency explicit in one application operation. A handler can coordinate the participating modules, as in this example.
