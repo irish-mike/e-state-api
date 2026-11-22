@@ -19,16 +19,15 @@ internal static class HealthEndpoints
 		});
 	}
 
-	private static async Task<IResult> GetDatabaseHealthAsync(
-		EStateDbContext db,
-		CancellationToken cancellationToken)
+	private static async Task<IResult> GetDatabaseHealthAsync(EStateDbContext db, CancellationToken cancellationToken)
 	{
 		var canConnect = await db.Database.CanConnectAsync(cancellationToken);
 
-		return canConnect
-			? Results.Ok(new { database = "ok" })
-			: Results.Problem(
-				statusCode: StatusCodes.Status503ServiceUnavailable,
-				title: "Database unavailable");
+		if (canConnect)
+			return Results.Ok(new { database = "ok" });
+
+		return Results.Problem(
+			statusCode: StatusCodes.Status503ServiceUnavailable,
+			title: "Database unavailable");
 	}
 }
