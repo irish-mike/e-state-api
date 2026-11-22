@@ -59,7 +59,7 @@ Rules for writing readable, maintainable C# backend code.
 
 - Implement what current requirements need. Avoid speculative features, options, abstractions, and configuration.
 - Prefer existing capabilities over introducing new infrastructure.
-- Avoid wrappers and forwarding methods that add no meaningful responsibility or boundary.
+- Avoid unnecessary wrappers and forwarding methods. Keep them when they preserve a meaningful architectural boundary.
 - Keep each behavior configured in one place where practical.
 - Extract repeated logic when doing so gives the behavior a clear owner.
 - Avoid storing information that can be derived easily from existing state.

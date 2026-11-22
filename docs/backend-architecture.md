@@ -8,7 +8,7 @@
 
 e-state is an Irish property sales platform that combines property listings with a lightweight transaction workspace. The backend will support real buyers, sellers, and professionals, so important workflows, permissions, audit history, and document access must be enforced by the backend.
 
-This document records the intended backend architecture and the conventions to follow when the backend repository is created.
+This document describes the intended architecture and boundaries. Follow established boundaries when adding functionality. Introduce components and infrastructure, implement planned features, or restructure existing code only when the current task requires it. Use examples to understand the patterns they illustrate.
 
 ## 2. Architecture summary
 
@@ -24,9 +24,9 @@ In practical terms:
 | Database | One PostgreSQL database |
 | Code boundaries | `Api`, `Application`, `Domain`, and `Infrastructure` projects |
 | Organization | Business modules and vertical use-case slices |
-| Writes | Explicit command handlers, domain behavior, repositories, and one transaction |
+| Writes | Explicit application operations, domain behavior, repositories, and one transaction |
 | Reads | Direct EF Core, Dapper, or SQL projections into response models |
-| Request dispatch | Explicit endpoint-to-handler method calls |
+| Request handling | Explicit calls from endpoints to application operations |
 | Background work | PostgreSQL outbox processed by `BackgroundService` |
 | Files | Private S3-compatible object storage |
 | API | REST with OpenAPI; no URL version prefix initially |
@@ -165,6 +165,8 @@ For example, `AcceptOffer` may use domain objects and repositories owned by Offe
 
 A vertical slice represents one complete user action or query. Everything unique to that use case is colocated.
 
+One possible layout uses a handler for a write and an application read operation for a simple query. Include the types that carry a meaningful responsibility in each slice.
+
 ```text
 EState.Application/
   Modules/
@@ -176,8 +178,6 @@ EState.Application/
         CreateListingValidator.cs
 
       GetListing/
-        GetListingQuery.cs
-        GetListingHandler.cs
         GetListingResult.cs
         IListingReader.cs
 ```
@@ -259,7 +259,9 @@ Writes normally load domain entities and call business methods. Reads can projec
 
 ## 9. Explicit request handling
 
-Endpoints must call handlers explicitly:
+Endpoints should call application operations explicitly. Use a handler when it provides a meaningful boundary for business logic, validation, or coordination. For a simple read, the endpoint may call an application read service directly.
+
+One option for a write operation is an explicit call to a handler that owns the use case.
 
 ```csharp
 var command = new CreateListingCommand(
@@ -279,7 +281,7 @@ return Results.Created(
 );
 ```
 
-Avoid hiding this flow behind a generic dispatcher unless a concrete future need justifies one.
+Avoid generic dispatchers and forwarding layers that provide no meaningful responsibility or boundary.
 
 ## 10. Create listing example
 
@@ -574,11 +576,11 @@ POST /api/listings
 
 ## 11. Get listing example
 
-### Query and result
+In this example, the endpoint calls the application read contract directly. Infrastructure owns the database projection.
+
+### Result
 
 ```csharp
-public sealed record GetListingQuery(Guid ListingId);
-
 public sealed record GetListingResult(
     Guid Id,
     string Title,
@@ -589,7 +591,7 @@ public sealed record GetListingResult(
 );
 ```
 
-### Read abstraction and handler
+### Application read contract
 
 ```csharp
 public interface IListingReader
@@ -598,20 +600,6 @@ public interface IListingReader
         Guid listingId,
         CancellationToken cancellationToken
     );
-}
-
-public sealed class GetListingHandler(
-    IListingReader listingReader)
-{
-    public Task<GetListingResult?> Handle(
-        GetListingQuery query,
-        CancellationToken cancellationToken)
-    {
-        return listingReader.Get(
-            query.ListingId,
-            cancellationToken
-        );
-    }
 }
 ```
 
@@ -651,13 +639,11 @@ public static class GetListingEndpoint
 {
     public static async Task<IResult> Handle(
         Guid listingId,
-        GetListingHandler handler,
+        IListingReader listingReader,
         CancellationToken cancellationToken)
     {
-        var query = new GetListingQuery(listingId);
-
-        var result = await handler.Handle(
-            query,
+        var result = await listingReader.Get(
+            listingId,
             cancellationToken
         );
 
@@ -673,9 +659,7 @@ Runtime flow:
 ```text
 GET /api/listings/{id}
 → GetListingEndpoint
-→ GetListingQuery
-→ GetListingHandler
-→ ListingReader
+→ IListingReader (implemented by ListingReader)
 → PostgreSQL projection
 → GetListingResult
 → 200 OK or 404 Not Found
@@ -791,7 +775,7 @@ public sealed class EStateDbContext(
 }
 ```
 
-All repositories participating in one request share the same scoped `EStateDbContext`. The handler calls `SaveChangesAsync` once to make the transaction boundary explicit.
+All repositories participating in one request share the same scoped `EStateDbContext`. The application operation calls `SaveChangesAsync` once to make the transaction boundary explicit.
 
 Do not let each repository commit independently during an important multi-record workflow.
 
@@ -852,7 +836,7 @@ EF Core contexts and repositories should normally be scoped.
 
 ## 16. Important cross-module workflows
 
-Workflows requiring immediate consistency should remain explicit in one application handler:
+Keep workflows that require immediate consistency explicit in one application operation. A handler can coordinate the participating modules, as in this example.
 
 ```csharp
 public async Task<AcceptOfferResult> Handle(
@@ -999,7 +983,9 @@ The frontend may generate transport types from OpenAPI, but feature API adapters
 
 ## 21. Testing strategy
 
-Use small unit tests for domain behavior:
+Follow the project's selective, risk-based [testing standards](testing-standards.md). The following examples illustrate meaningful risks to consider when deciding whether a test is useful.
+
+Small unit tests can protect meaningful domain behavior, such as preventing acceptance of a withdrawn offer.
 
 ```csharp
 [Fact]
@@ -1014,7 +1000,7 @@ public void CannotAcceptWithdrawnOffer()
 }
 ```
 
-Use integration tests against disposable PostgreSQL for workflows, authorization, mappings, constraints, and concurrency.
+Integration tests against disposable PostgreSQL are appropriate when correctness depends on database semantics, such as mappings, constraints, transactions, or concurrency.
 
 An integration test for competing accepted offers should:
 
@@ -1034,7 +1020,7 @@ When adding backend code:
 
 1. Start from the business use case rather than a generic service.
 2. Keep endpoints thin and explicit.
-3. Colocate command/query, handler, result, and validation code by use case.
+3. Colocate the application operation, its inputs and results, and any validation specific to the use case.
 4. Put reusable business behavior in domain entities or domain services.
 5. Use repositories for meaningful command-side aggregate persistence.
 6. Use direct projections for read-only screen and API models.

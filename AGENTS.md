@@ -9,7 +9,7 @@ Follow platform and security restrictions first, then explicit user instructions
 ## Before starting
 
 - Inspect the relevant code, tests, and configuration before making changes.
-- Read [backend architecture](docs/backend-architecture.md) for project structure and module boundaries.
+- Consult the relevant sections of [backend architecture](docs/backend-architecture.md) for project structure, module boundaries, and design decisions.
 - Consult [code standards](docs/code-standards.md) and [engineering principles](docs/engineering-principles.md) for relevant conventions.
 - Follow existing logging patterns when modifying logs.
 - Use project files, the tool manifest, and Makefile to determine versions and commands.
@@ -44,12 +44,11 @@ Follow platform and security restrictions first, then explicit user instructions
 
 ## Testing and verification
 
-- Add or update tests when changing application behavior or fixing bugs.
-- Focus tests on application behavior, not framework or library functionality.
-- Skip tests for trivial changes or behavior already adequately covered.
-- Run the project's formatting checks, build, and relevant tests before completing work.
-- Fix failures caused by your changes. Do not bypass checks or modify unrelated code merely to make them pass.
-- Report which checks ran and any that failed or could not be run.
+- Follow the [testing standards](docs/testing-standards.md). Do not add new tests by default. Add focused regression tests for important bug fixes or add tests when explicitly requested. Ask before creating new test files or suites.
+- Update existing tests when intended behavior changes and their expectations no longer apply.
+- Run the project's formatting checks, build, and relevant existing tests before completing work.
+- Fix failures caused by your changes. Run checks as configured and keep unrelated code intact.
+- Report which checks ran and any failures or checks that could not be completed.
 
 ## Documentation
 
