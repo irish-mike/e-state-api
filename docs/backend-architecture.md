@@ -987,6 +987,10 @@ Use:
 - authorization on every protected endpoint;
 - optimistic concurrency and database constraints for important workflows.
 
+Declare required client inputs with non-nullable `required` properties. JSON binding rejects omitted required properties and explicit `null` values for non-nullable properties. Keep server-assigned fields out of request models.
+
+Use data annotations on request models for field-level rules. Listing requests use lowercase snake case for enum values such as `semi_detached` and `b2`. Minimal API validation returns `400 Bad Request` with errors keyed by C# property paths, such as `Property.Address.Line1`.
+
 The frontend may generate transport types from OpenAPI, but feature API adapters should map them into frontend-facing models where appropriate.
 
 ## 21. Testing strategy

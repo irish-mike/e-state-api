@@ -14,4 +14,9 @@ public sealed class ListingRepository(EStateDbContext db) : IListingRepository
 			.ThenInclude(property => property.Address)
 			.SingleOrDefaultAsync(listing => listing.Id == id);
 	}
+
+	public void Add(Listing listing)
+	{
+		db.Listings.Add(listing);
+	}
 }

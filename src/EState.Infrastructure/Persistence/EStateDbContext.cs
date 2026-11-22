@@ -1,3 +1,4 @@
+using EState.Application.Abstractions.Persistence;
 using EState.Domain.Modules.Addresses;
 using EState.Domain.Modules.Listings;
 using EState.Domain.Modules.Properties;
@@ -8,7 +9,7 @@ namespace EState.Infrastructure.Persistence;
 
 public sealed class EStateDbContext(
 	DbContextOptions<EStateDbContext> options)
-	: DbContext(options)
+	: DbContext(options), IUnitOfWork
 {
 	public DbSet<Address> Addresses => Set<Address>();
 	public DbSet<User> Users => Set<User>();

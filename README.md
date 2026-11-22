@@ -50,6 +50,10 @@ With the API running, open [Swagger UI](http://localhost:5165/swagger) to browse
 
 To try `GET /api/listings/{id}`, use the seeded apartment listing ID `40000000-0000-4000-8000-000000000001`.
 
+Import the [Postman collection](tools/postman/e-state-api.postman_collection.json) to send requests to the local API. The collection defaults to `http://localhost:5165` and uses the seeded apartment for `listingId`.
+
+The **Create listing** request is available in Development and uses a seeded seller. Run `make db-seed` before trying it. A successful request creates a draft and returns `201 Created` with a `listingId` and a `Location` header.
+
 ## Formatting and linting
 
 After `make restore`, run `make format` to fix C# formatting or `make check` to verify formatting and build with analyzers.
