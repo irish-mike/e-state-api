@@ -10,6 +10,8 @@ internal static class SnakeCaseEnum<TEnum> where TEnum : struct, Enum
 			name => Enum.Parse<TEnum>(name),
 			StringComparer.Ordinal);
 
+	public static IReadOnlyCollection<string> Names => ValuesByName.Keys;
+
 	public static bool IsDefined(string name) => ValuesByName.ContainsKey(name);
 
 	public static TEnum Parse(string name)

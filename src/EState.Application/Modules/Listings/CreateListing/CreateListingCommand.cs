@@ -4,7 +4,7 @@ namespace EState.Application.Modules.Listings.CreateListing;
 
 public sealed record CreateListingCommand(
 	Guid SellerId,
-	decimal? AskingPrice,
+	int? AskingPrice,
 	CreateListingProperty Property);
 
 public sealed record CreateListingProperty(
@@ -13,7 +13,7 @@ public sealed record CreateListingProperty(
 	short Bathrooms,
 	short? YearBuilt,
 	BerRating? BerRating,
-	decimal? FloorAreaSqm,
+	int? FloorAreaSqm,
 	string? Description,
 	CreateListingAddress Address);
 

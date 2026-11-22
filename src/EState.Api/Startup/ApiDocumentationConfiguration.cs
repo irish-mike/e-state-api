@@ -1,7 +1,41 @@
+using System.Reflection;
+using System.Text.Json.Nodes;
+using EState.Api.Shared.Validation;
+using Microsoft.AspNetCore.OpenApi;
+using Microsoft.OpenApi;
+
 namespace EState.Api.Startup;
 
 internal static class ApiDocumentationConfiguration
 {
+	public static Task ApplyEnumValues(
+		OpenApiSchema schema,
+		OpenApiSchemaTransformerContext context,
+		CancellationToken _)
+	{
+		var property = context.JsonPropertyInfo?.AttributeProvider as PropertyInfo;
+		if (property?.GetCustomAttribute<EnumValueAttribute>() is { } enumValues)
+			SetAllowedEnumValues(schema, enumValues);
+
+		return Task.CompletedTask;
+	}
+
+	private static void SetAllowedEnumValues(OpenApiSchema schema, EnumValueAttribute enumValues)
+	{
+		List<JsonNode> names = [.. enumValues.Names.Select(name => JsonValue.Create(name))];
+		if (schema.Type?.HasFlag(JsonSchemaType.Null) != true)
+		{
+			schema.Enum = names;
+			return;
+		}
+
+		schema.AnyOf =
+		[
+			new OpenApiSchema { Type = JsonSchemaType.String, Enum = names },
+			new OpenApiSchema { Type = JsonSchemaType.Null }
+		];
+	}
+
 	public static void Configure(WebApplication app)
 	{
 		if (!app.Environment.IsDevelopment())

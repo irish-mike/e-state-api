@@ -13,7 +13,7 @@ public sealed class Property : ITimestampedEntity
 	public short Bathrooms { get; set; }
 	public short? YearBuilt { get; set; }
 	public BerRating? BerRating { get; set; }
-	public decimal? FloorAreaSqm { get; set; }
+	public int? FloorAreaSqm { get; set; }
 	public string? Description { get; set; }
 	public DateTime CreatedAt { get; set; }
 	public DateTime UpdatedAt { get; set; }

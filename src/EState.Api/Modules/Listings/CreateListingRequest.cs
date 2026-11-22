@@ -6,8 +6,8 @@ namespace EState.Api.Modules.Listings;
 
 public sealed record CreateListingRequest
 {
-	[Range(typeof(decimal), "0", "9999999999.99", ParseLimitsInInvariantCulture = true)]
-	public decimal? AskingPrice { get; init; }
+	[Range(0, int.MaxValue)]
+	public int? AskingPrice { get; init; }
 
 	public required PropertyDetails Property { get; init; }
 }
@@ -29,8 +29,8 @@ public sealed record PropertyDetails
 	[EnumValue<BerRating>(ErrorMessage = "Choose a supported BER rating.")]
 	public string? BerRating { get; init; }
 
-	[Range(typeof(decimal), "0", "99999999.99", ParseLimitsInInvariantCulture = true)]
-	public decimal? FloorAreaSqm { get; init; }
+	[Range(0, int.MaxValue)]
+	public int? FloorAreaSqm { get; init; }
 
 	public string? Description { get; init; }
 	public required AddressDetail Address { get; init; }

@@ -75,8 +75,7 @@ public sealed class PropertyConfiguration : IEntityTypeConfiguration<Property>
 			.HasMaxLength(6);
 
 		builder.Property(property => property.FloorAreaSqm)
-			.HasColumnName("floor_area_sqm")
-			.HasPrecision(10, 2);
+			.HasColumnName("floor_area_sqm");
 
 		builder.Property(property => property.Description)
 			.HasColumnName("description")

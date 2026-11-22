@@ -47,8 +47,7 @@ public sealed class ListingConfiguration : IEntityTypeConfiguration<Listing>
 			.HasColumnName("seller_id");
 
 		builder.Property(listing => listing.AskingPrice)
-			.HasColumnName("asking_price")
-			.HasPrecision(12, 2);
+			.HasColumnName("asking_price");
 
 		builder.Property(listing => listing.Status)
 			.HasColumnName("status")

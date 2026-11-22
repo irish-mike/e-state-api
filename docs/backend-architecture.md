@@ -309,7 +309,7 @@ public sealed class Listing
         Guid sellerId,
         string title,
         string address,
-        decimal askingPriceEur,
+        int? askingPriceEur,
         DateTimeOffset createdAtUtc)
     {
         Id = id;
@@ -325,7 +325,7 @@ public sealed class Listing
     public Guid SellerId { get; private set; }
     public string Title { get; private set; } = string.Empty;
     public string Address { get; private set; } = string.Empty;
-    public decimal AskingPriceEur { get; private set; }
+    public int? AskingPriceEur { get; private set; }
     public ListingStatus Status { get; private set; }
     public DateTimeOffset CreatedAtUtc { get; private set; }
 
@@ -333,7 +333,7 @@ public sealed class Listing
         Guid sellerId,
         string title,
         string address,
-        decimal askingPriceEur,
+        int? askingPriceEur,
         DateTimeOffset createdAtUtc)
     {
         if (sellerId == Guid.Empty)
@@ -360,11 +360,11 @@ public sealed class Listing
             );
         }
 
-        if (askingPriceEur <= 0)
+        if (askingPriceEur < 0)
         {
             throw new ArgumentOutOfRangeException(
                 nameof(askingPriceEur),
-                "The asking price must be greater than zero."
+                "The asking price cannot be negative."
             );
         }
 
@@ -444,7 +444,7 @@ The seller ID comes from the authenticated backend user rather than a `seller_id
 public sealed record CreateListingCommand(
     string Title,
     string Address,
-    decimal AskingPriceEur
+    int? AskingPriceEur
 );
 
 public sealed record CreateListingResult(Guid ListingId);
@@ -468,10 +468,10 @@ public sealed class CreateListingValidator
             errors["address"] = ["An address is required."];
         }
 
-        if (command.AskingPriceEur <= 0)
+        if (command.AskingPriceEur < 0)
         {
             errors["asking_price_eur"] = [
-                "The asking price must be greater than zero."
+                "The asking price cannot be negative."
             ];
         }
 
@@ -523,7 +523,7 @@ public sealed class CreateListingHandler(
 public sealed record CreateListingRequest(
     string Title,
     string Address,
-    decimal AskingPriceEur
+    int? AskingPriceEur
 );
 
 public static class CreateListingEndpoint
@@ -585,7 +585,7 @@ public sealed record GetListingResult(
     Guid Id,
     string Title,
     string Address,
-    decimal AskingPriceEur,
+    int? AskingPriceEur,
     ListingStatus Status,
     DateTimeOffset CreatedAtUtc
 );
@@ -686,10 +686,6 @@ public sealed class ListingConfiguration
 
         builder.Property(listing => listing.Address)
             .HasMaxLength(500)
-            .IsRequired();
-
-        builder.Property(listing => listing.AskingPriceEur)
-            .HasPrecision(12, 2)
             .IsRequired();
 
         builder.Property(listing => listing.Status)
@@ -989,7 +985,7 @@ Use:
 
 Declare required client inputs with non-nullable `required` properties. JSON binding rejects omitted required properties and explicit `null` values for non-nullable properties. Keep server-assigned fields out of request models.
 
-Use data annotations on request models for field-level rules. Listing requests use lowercase snake case for enum values such as `semi_detached` and `b2`. Minimal API validation returns `400 Bad Request` with errors keyed by C# property paths, such as `Property.Address.Line1`.
+Use data annotations on request models for field-level rules. Listing requests and responses use lowercase snake case for enum values such as `semi_detached` and `b2`. OpenAPI lists the accepted enum values. Asking price in euros and floor area in square metres are optional, non-negative 32-bit integers. Both fields accept null. Minimal API validation returns `400 Bad Request` with errors keyed by C# property paths, such as `Property.Address.Line1`.
 
 The frontend may generate transport types from OpenAPI, but feature API adapters should map them into frontend-facing models where appropriate.
 

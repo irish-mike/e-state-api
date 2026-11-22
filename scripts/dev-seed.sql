@@ -25,13 +25,13 @@ INSERT INTO properties (
 VALUES
     (
         '30000000-0000-4000-8000-000000000001', '10000000-0000-4000-8000-000000000001',
-        'apartment', 2, 2, 2014, 'B3', 68.00,
+        'apartment', 2, 2, 2014, 'B3', 68,
         'A well-kept two-bedroom apartment in Clonee, Dublin 15. Bright open-plan living area, modern kitchen, main bedroom with ensuite, and good transport links to Blanchardstown and Dublin city.',
         CURRENT_TIMESTAMP - INTERVAL '35 days', CURRENT_TIMESTAMP - INTERVAL '3 days'
     ),
     (
         '30000000-0000-4000-8000-000000000002', '10000000-0000-4000-8000-000000000002',
-        'semi_detached', 4, 3, 2018, 'A3', 125.00,
+        'semi_detached', 4, 3, 2018, 'A3', 125,
         'A bright and well-maintained semi-detached home in Johnstown, Navan. Modern kitchen, generous living space, four bedrooms, and a rear garden. Close to schools, shops, and local services.',
         CURRENT_TIMESTAMP - INTERVAL '26 days', CURRENT_TIMESTAMP - INTERVAL '2 days'
     )
@@ -41,12 +41,12 @@ INSERT INTO listings (id, property_id, seller_id, asking_price, status, created_
 VALUES
     (
         '40000000-0000-4000-8000-000000000001', '30000000-0000-4000-8000-000000000001',
-        '20000000-0000-4000-8000-000000000003', 325000.00, 'listed',
+        '20000000-0000-4000-8000-000000000003', 325000, 'listed',
         CURRENT_TIMESTAMP - INTERVAL '30 days', CURRENT_TIMESTAMP - INTERVAL '3 days'
     ),
     (
         '40000000-0000-4000-8000-000000000002', '30000000-0000-4000-8000-000000000002',
-        '20000000-0000-4000-8000-000000000001', 425000.00, 'listed',
+        '20000000-0000-4000-8000-000000000001', 425000, 'listed',
         CURRENT_TIMESTAMP - INTERVAL '21 days', CURRENT_TIMESTAMP - INTERVAL '2 days'
     )
 ON CONFLICT (id) DO NOTHING;

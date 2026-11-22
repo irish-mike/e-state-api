@@ -37,7 +37,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"askingPrice\": 350000,\n  \"property\": {\n    \"propertyType\": \"apartment\",\n    \"bedrooms\": 2,\n    \"bathrooms\": 1,\n    \"floorAreaSqm\": 74.5,\n    \"berRating\": \"b2\",\n    \"address\": {\n      \"line1\": \"Apartment 4, 12 Example Street\",\n      \"town\": \"Dublin\",\n      \"county\": \"Dublin\",\n      \"eircode\": \"D02 X285\"\n    }\n  }\n}",
+          "raw": "{\n  \"askingPrice\": 350000,\n  \"property\": {\n    \"propertyType\": \"apartment\",\n    \"bedrooms\": 2,\n    \"bathrooms\": 1,\n    \"floorAreaSqm\": 75,\n    \"berRating\": \"b2\",\n    \"address\": {\n      \"line1\": \"Apartment 4, 12 Example Street\",\n      \"town\": \"Dublin\",\n      \"county\": \"Dublin\",\n      \"eircode\": \"D02 X285\"\n    }\n  }\n}",
           "options": {
             "raw": {
               "language": "json"
